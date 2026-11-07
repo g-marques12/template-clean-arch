@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+ENV/
+
+# Artefatos gerados pelo build do executável (PyInstaller)
+dist/
+build/.work/
+*.spec
+
+# Logs de execução local
+logs/
+
+# IDEs e editores
+.idea/
+
+# Configurações sensíveis / locais (não versionar settings.ini no GitHub)
+settings.ini
+**/settings.ini
+settings.local.ini
+!settings.example.ini
