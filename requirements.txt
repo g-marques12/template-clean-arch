@@ -1,4 +1,9 @@
 # ==========================================
+# Dependências da Aplicação (Automação Web)
+# ==========================================
+selenium>=4.20.0
+
+# ==========================================
 # Dependências de Desenvolvimento e Qualidade
 # ==========================================
 pytest>=8.0.0
@@ -8,8 +13,3 @@ ruff>=0.4.0
 # Empacotamento e Geração de Executável (.exe)
 # ==========================================
 pyinstaller>=6.0.0
-
-# ==========================================
-# Dependências da Aplicação (adicione abaixo)
-# ==========================================
-# requests>=2.31.0

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from src.config.settings import Settings
 from src.logger import configure_logging, get_logger
-from src.services.automation_service import AutomationService
+from src.services.selenium_service import SeleniumService
 from src.use_cases.execute_automation import ExecuteAutomationUseCase
 
 
@@ -20,20 +20,18 @@ def main() -> None:
     logger = get_logger(settings.application_name, "main")
     logger.info("Processo iniciado")
 
-    try:
-        # 1. Instanciar Services (Integrações externas / Infraestrutura)
-        automation_service = AutomationService(
-            dry_run=settings.dry_run,
-            timeout_seconds=settings.timeout_seconds,
-            logger=get_logger(settings.application_name, "service"),
-        )
-        # api_service = ApiService(...)
-        # file_service = FileService(...)
+    # Inicia o serviço de automação web com Selenium
+    selenium = SeleniumService(
+        timeout_padrao=settings.timeout_seconds,
+        headless=False,
+    )
 
-        # 2. Instanciar e executar Use Cases (Regras de negócio)
+    try:
+        # Instancia e executa o caso de uso orquestrador
         use_case = ExecuteAutomationUseCase(
             settings=settings,
-            automation_service=automation_service,
+            selenium_service=selenium,
+            logger=logger,
         )
         message = use_case.execute()
 
@@ -42,6 +40,10 @@ def main() -> None:
         raise
     else:
         logger.info("Processo finalizado com sucesso | %s", message)
+    finally:
+        # Dica: descomente para fechar o navegador automaticamente no fim
+        # selenium.fechar_navegador()
+        pass
 
 
 if __name__ == "__main__":

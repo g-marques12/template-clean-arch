@@ -1,5 +1,5 @@
 """Integrações externas e serviços da aplicação."""
 
-from .automation_service import AutomationService
+from .selenium_service import SeleniumService
 
-__all__ = ["AutomationService"]
+__all__ = ["SeleniumService"]
