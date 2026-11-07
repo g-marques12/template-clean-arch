@@ -33,6 +33,8 @@ class Settings:
     dry_run: bool
     target_url: str
     timeout_seconds: int
+    max_retries: int
+    retry_delay_seconds: int
     log_level: str
     log_directory: Path
 
@@ -50,12 +52,17 @@ class Settings:
         try:
             timeout = parser.getint("automation", "timeout_seconds")
             dry_run = parser.getboolean("application", "dry_run")
+            max_retries = parser.getint("automation", "max_retries", fallback=3)
+            retry_delay = parser.getint("automation", "retry_delay_seconds", fallback=2)
+
             settings = cls(
                 application_name=parser.get("application", "name"),
                 environment=parser.get("application", "environment"),
                 dry_run=dry_run,
                 target_url=parser.get("automation", "target_url"),
                 timeout_seconds=timeout,
+                max_retries=max_retries,
+                retry_delay_seconds=retry_delay,
                 log_level=parser.get("logging", "level").upper(),
                 log_directory=Path(parser.get("logging", "directory")),
             )
@@ -68,5 +75,9 @@ class Settings:
     def _validate(self) -> None:
         if self.timeout_seconds <= 0:
             raise ValueError("automation.timeout_seconds deve ser maior que zero")
+        if self.max_retries <= 0:
+            raise ValueError("automation.max_retries deve ser maior que zero")
+        if self.retry_delay_seconds < 0:
+            raise ValueError("automation.retry_delay_seconds não pode ser negativo")
         if not self.application_name.strip():
             raise ValueError("application.name não pode estar vazio")

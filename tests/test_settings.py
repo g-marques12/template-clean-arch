@@ -16,6 +16,8 @@ dry_run = true
 [automation]
 target_url = https://example.com
 timeout_seconds = 10
+max_retries = 2
+retry_delay_seconds = 1
 
 [logging]
 level = debug
@@ -29,6 +31,8 @@ directory = test-logs
     assert settings.application_name == "test-app"
     assert settings.dry_run is True
     assert settings.timeout_seconds == 10
+    assert settings.max_retries == 2
+    assert settings.retry_delay_seconds == 1
     assert settings.log_level == "DEBUG"
 
 
